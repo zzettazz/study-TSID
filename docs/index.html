@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Acceso · Estudio</title>
+<style>
+:root{--bg:#f4f6fa;--card:#fff;--ink:#1c2430;--mute:#5d6b7e;--line:#d9e0ea;--brand:#1f4e8c;--ko:#b3261e}
+@media (prefers-color-scheme:dark){:root{--bg:#10151d;--card:#18202b;--ink:#e6ebf2;--mute:#9aa8ba;--line:#2b3747;--brand:#5b9be6;--ko:#ff8a80}}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding:16px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 24px;width:100%;max-width:380px}
+h1{font-size:1.25rem;margin:0 0 4px}p{color:var(--mute);margin:.2rem 0 1rem;font-size:.92rem}
+input[type=password]{width:100%;font:inherit;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+button{width:100%;margin-top:12px;background:var(--brand);color:#fff;border:0;border-radius:10px;padding:12px;font:inherit;font-weight:650;cursor:pointer}
+button[disabled]{opacity:.55}label{display:block;margin-top:10px;font-size:.9rem;color:var(--mute)}
+#err{color:var(--ko);min-height:1.4em;margin:.6rem 0 0;font-size:.92rem}
+</style></head><body>
+<form class="box" id="f" autocomplete="off">
+<h1>Plataforma de estudio</h1><p>Técnico Superior en Imagen para el Diagnóstico y Medicina Nuclear. Contenido privado para el grupo de estudio. Introduce la clave de acceso.</p>
+<input type="password" id="pw" placeholder="Clave de acceso" autofocus autocomplete="current-password">
+<label><input type="checkbox" id="rem"> Recordar en este dispositivo</label>
+<button id="go" type="submit">Entrar</button><div id="err" role="alert"></div>
+</form>
+<script>
+var CLAVE="ut4_clave";
+function b64(s){var r=atob(s),a=new Uint8Array(r.length);for(var i=0;i<r.length;i++)a[i]=r.charCodeAt(i);return a}
+function store(){try{return localStorage.getItem(CLAVE)||sessionStorage.getItem(CLAVE)}catch(e){return null}}
+async function unlock(pw){
+  var res=await fetch("payload.json",{cache:"no-cache"});var p=await res.json();
+  var km=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveKey"]);
+  var key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:b64(p.salt),iterations:p.iter,hash:"SHA-256"},km,{name:"AES-GCM",length:256},false,["decrypt"]);
+  var pt=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(p.iv)},key,b64(p.ct));
+  var html=new TextDecoder().decode(pt);document.open();document.write(html);document.close();
+}
+async function attempt(pw,remember){
+  var btn=document.getElementById("go"),err=document.getElementById("err");btn.disabled=true;err.textContent="";btn.textContent="Comprobando…";
+  try{
+    if(!window.crypto||!crypto.subtle)throw new Error("seguro");
+    await unlock(pw);
+    try{(remember?localStorage:sessionStorage).setItem(CLAVE,pw)}catch(e){}
+  }catch(e){
+    btn.disabled=false;btn.textContent="Entrar";
+    err.textContent=(e&&e.message==="seguro")?"Este navegador no permite el descifrado (usa https).":"Clave incorrecta.";
+    try{localStorage.removeItem(CLAVE);sessionStorage.removeItem(CLAVE)}catch(_){}
+  }
+}
+document.getElementById("f").onsubmit=function(e){e.preventDefault();var pw=document.getElementById("pw").value;if(pw)attempt(pw,document.getElementById("rem").checked)};
+var saved=store();if(saved)attempt(saved,!!localStorage.getItem(CLAVE));
+</script></body></html>
