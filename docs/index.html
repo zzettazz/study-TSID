@@ -1,23 +1,42 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow"><title>Acceso · Estudio</title>
+<meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="light dark"><title>Acceso · Estudio</title>
 <style>
-:root{--bg:#f4f6fa;--card:#fff;--ink:#1c2430;--mute:#5d6b7e;--line:#d9e0ea;--brand:#1f4e8c;--ko:#b3261e}
-@media (prefers-color-scheme:dark){:root{--bg:#10151d;--card:#18202b;--ink:#e6ebf2;--mute:#9aa8ba;--line:#2b3747;--brand:#5b9be6;--ko:#ff8a80}}
-body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding:16px}
-.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 24px;width:100%;max-width:380px}
-h1{font-size:1.25rem;margin:0 0 4px}p{color:var(--mute);margin:.2rem 0 1rem;font-size:.92rem}
-input[type=password]{width:100%;font:inherit;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
-button{width:100%;margin-top:12px;background:var(--brand);color:#fff;border:0;border-radius:10px;padding:12px;font:inherit;font-weight:650;cursor:pointer}
-button[disabled]{opacity:.55}label{display:block;margin-top:10px;font-size:.9rem;color:var(--mute)}
-#err{color:var(--ko);min-height:1.4em;margin:.6rem 0 0;font-size:.92rem}
+:root{--bg:#f3f7f9;--surface:#fff;--text:#0f2a35;--muted:#445f6c;--border:#c3d4dc;--primary:#0b6b86;--primary-h:#095468;--on-primary:#fff;--ko:#a6211a;--ko-bg:#fdebe9;--focus:#0b6b86}
+@media (prefers-color-scheme:dark){:root{--bg:#0a171d;--surface:#112530;--text:#e8f2f6;--muted:#a3bcc7;--border:#2b4756;--primary:#6fd0ea;--primary-h:#93dcf0;--on-primary:#062a36;--ko:#ff9d95;--ko-bg:#40201f;--focus:#9be3f5}}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;display:grid;place-items:center;background:var(--bg);color:var(--text);font:1rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:16px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+.box{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px 28px;width:100%;max-width:420px;box-shadow:0 4px 24px rgba(15,42,53,.1)}
+.logo{width:48px;height:48px;border-radius:14px;background:var(--primary);color:var(--on-primary);display:grid;place-items:center;margin-bottom:16px}
+h1{font-size:1.4rem;line-height:1.25;margin:0 0 8px}
+p{color:var(--muted);margin:0 0 20px;font-size:.95rem}
+label.f{display:block;font-weight:600;margin-bottom:6px}
+.pw{display:flex;gap:8px}
+input[type=password],input[type=text]{flex:1;min-width:0;min-height:48px;font:inherit;padding:8px 12px;border:1.5px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text)}
+input[aria-invalid="true"]{border-color:var(--ko);background:var(--ko-bg)}
+button{min-height:48px;font:inherit;cursor:pointer;touch-action:manipulation}
+.eye{padding:0 14px;border:1.5px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text)}
+.go{width:100%;margin-top:16px;background:var(--primary);color:var(--on-primary);border:2px solid var(--primary);border-radius:12px;font-weight:700}
+.go:hover{background:var(--primary-h)}.go[disabled]{opacity:.55;cursor:wait}
+.rem{display:flex;align-items:center;gap:10px;margin-top:14px;min-height:44px;color:var(--muted);font-size:.95rem}
+.rem input{width:20px;height:20px;accent-color:var(--primary)}
+#err{margin-top:14px;min-height:1.5em;color:var(--ko);font-weight:600;font-size:.95rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style></head><body>
-<form class="box" id="f" autocomplete="off">
-<h1>Plataforma de estudio</h1><p>Técnico Superior en Imagen para el Diagnóstico y Medicina Nuclear. Contenido privado para el grupo de estudio. Introduce la clave de acceso.</p>
-<input type="password" id="pw" placeholder="Clave de acceso" autofocus autocomplete="current-password">
-<label><input type="checkbox" id="rem"> Recordar en este dispositivo</label>
-<button id="go" type="submit">Entrar</button><div id="err" role="alert"></div>
+<main>
+<form class="box" id="f" aria-labelledby="t">
+<div class="logo" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7c0-1.7 1.3-3 3-3h10c1.7 0 3 1.3 3 3v4c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3z"/><path d="M8 14v4M16 14v4M10 18h4"/><circle cx="9" cy="8.5" r=".8" fill="currentColor"/><circle cx="15" cy="8.5" r=".8" fill="currentColor"/></svg></div>
+<h1 id="t">Plataforma de estudio</h1>
+<p>Técnico Superior en Imagen para el Diagnóstico y Medicina Nuclear. Contenido privado para el grupo de estudio.</p>
+<label class="f" for="pw">Clave de acceso</label>
+<div class="pw"><input type="password" id="pw" autocomplete="current-password" autofocus required aria-describedby="err"><button type="button" class="eye" id="eye" aria-pressed="false" aria-label="Mostrar la clave">Mostrar</button></div>
+<label class="rem"><input type="checkbox" id="rem"> Recordar en este dispositivo</label>
+<button class="go" id="go" type="submit">Entrar</button>
+<div id="err" role="alert"></div>
 </form>
+</main>
 <script>
 var CLAVE="ut4_clave";
 function b64(s){var r=atob(s),a=new Uint8Array(r.length);for(var i=0;i<r.length;i++)a[i]=r.charCodeAt(i);return a}
@@ -30,17 +49,19 @@ async function unlock(pw){
   var html=new TextDecoder().decode(pt);document.open();document.write(html);document.close();
 }
 async function attempt(pw,remember){
-  var btn=document.getElementById("go"),err=document.getElementById("err");btn.disabled=true;err.textContent="";btn.textContent="Comprobando…";
+  var btn=document.getElementById("go"),err=document.getElementById("err"),inp=document.getElementById("pw");btn.disabled=true;err.textContent="";inp.removeAttribute("aria-invalid");btn.textContent="Comprobando…";
   try{
     if(!window.crypto||!crypto.subtle)throw new Error("seguro");
     await unlock(pw);
     try{(remember?localStorage:sessionStorage).setItem(CLAVE,pw)}catch(e){}
   }catch(e){
     btn.disabled=false;btn.textContent="Entrar";
-    err.textContent=(e&&e.message==="seguro")?"Este navegador no permite el descifrado (usa https).":"Clave incorrecta.";
+    err.textContent=(e&&e.message==="seguro")?"Este navegador no permite el descifrado (usa una dirección https).":"La clave no es correcta. Revísala e inténtalo de nuevo.";
+    inp.setAttribute("aria-invalid","true");inp.focus();
     try{localStorage.removeItem(CLAVE);sessionStorage.removeItem(CLAVE)}catch(_){}
   }
 }
+document.getElementById("eye").onclick=function(){var i=document.getElementById("pw"),show=i.type==="password";i.type=show?"text":"password";this.textContent=show?"Ocultar":"Mostrar";this.setAttribute("aria-pressed",show);this.setAttribute("aria-label",show?"Ocultar la clave":"Mostrar la clave")};
 document.getElementById("f").onsubmit=function(e){e.preventDefault();var pw=document.getElementById("pw").value;if(pw)attempt(pw,document.getElementById("rem").checked)};
 var saved=store();if(saved)attempt(saved,!!localStorage.getItem(CLAVE));
 </script></body></html>
